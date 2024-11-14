@@ -90,6 +90,7 @@ eXpressionCalc::eXpressionCalc() {
                                                                               : -1) }},
         { "PI",      { 0, LAMBDA_EXPR(M_PI) }                                                         },
         { "E",       { 0, LAMBDA_EXPR(M_E) }                                                          },
+        { "neg",     { 1, LAMBDA_EXPR(-1.0 * params[0]) }                                             },
     };
 }
 
@@ -192,7 +193,13 @@ Notation_t eXpressionCalc::reversePolishNotation() {
             ++ExprIt;
         } else {
             std::string num = readNumber();
-            result.push_back(num);
+            if(num[0] == '-') {
+                result.push_back(num.substr(1));
+                result.push_back("neg");
+            }
+            else {
+                result.push_back(num);
+            }
         }
     }
 
